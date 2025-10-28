@@ -1,0 +1,424 @@
+/* Periods Module Specific Styles */
+.periods-module {
+    position: relative;
+}
+
+.form-section {
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.form-label {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+    display: block;
+    position: relative;
+    padding-left: 30px;
+}
+
+.form-label::before {
+    content: '✨';
+    position: absolute;
+    left: 0;
+    font-size: 20px;
+}
+
+.date-inputs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select select {
+    width: 100%;
+    padding: 18px 20px;
+    border: 3px solid #e5e7eb;
+    border-radius: 15px;
+    font-size: 17px;
+    font-weight: 600;
+    background: white;
+    cursor: pointer;
+    appearance: none;
+    transition: all 0.3s ease;
+    background-image: linear-gradient(45deg, transparent 50%, #ec4899 50%), linear-gradient(135deg, #ec4899 50%, transparent 50%);
+    background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px);
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+}
+
+.custom-select select:focus {
+    outline: none;
+    border-color: #ec4899;
+    box-shadow: 0 0 0 5px rgba(236, 72, 153, 0.2);
+    transform: translateY(-2px);
+}
+
+.custom-select select:hover {
+    border-color: #a855f7;
+}
+
+.cycle-length {
+    max-width: 250px;
+}
+
+.calculate-btn {
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    color: white;
+    border: none;
+    padding: 22px 70px;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(236, 72, 153, 0.4);
+    transition: all 0.3s ease;
+    display: block;
+    margin: 40px auto;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.calculate-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.calculate-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.calculate-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(236, 72, 153, 0.5);
+}
+
+.calculate-btn:active {
+    transform: translateY(-2px);
+}
+
+.loading-screen {
+    display: none;
+    text-align: center;
+    padding: 80px 20px;
+    animation: fadeIn 0.5s ease;
+    position: relative;
+}
+
+.loading-screen.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.did-you-know {
+    font-size: 56px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 40px;
+    animation: slideInTop 0.8s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+@keyframes slideInTop {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.stat-highlight {
+    font-size: 100px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 30px 0;
+    animation: scaleIn 1s ease 0.5s both;
+    text-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.info-text {
+    font-size: 26px;
+    color: #000;
+    line-height: 1.8;
+    max-width: 750px;
+    margin: 30px auto;
+    animation: fadeIn 1.5s ease 1s both;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    font-weight: 500;
+}
+
+.bloom-highlight {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    font-size: 30px;
+}
+
+.spinner {
+    width: 70px;
+    height: 70px;
+    border: 8px solid rgba(255, 255, 255, 0.3);
+    border-top: 8px solid #ec4899;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 40px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.result-screen {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+.result-screen.active {
+    display: block;
+}
+
+.result-box {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    padding: 50px;
+    margin: 30px auto;
+    max-width: 700px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.result-box::before {
+    content: '🌺';
+    position: absolute;
+    font-size: 150px;
+    opacity: 0.1;
+    top: -30px;
+    right: -30px;
+    animation: rotate 10s linear infinite;
+}
+
+.result-title {
+    font-size: 32px;
+    color: white;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.result-date {
+    font-size: 54px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 5px 20px rgba(251, 191, 36, 0.3);
+    animation: pulse 2s ease infinite;
+}
+
+.discussion-section {
+    margin-top: 60px;
+    padding: 40px 0;
+}
+
+.discussion-title {
+    font-size: 42px;
+    font-weight: 900;
+    text-align: center;
+    color: #000;
+    margin-bottom: 20px;
+    text-shadow: 0 3px 15px rgba(0,0,0,0.3);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.discussion-subtitle {
+    text-align: center;
+    color: #000;
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.discussion-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.discussion-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    display: flex;
+    gap: 20px;
+    transition: all 0.4s ease;
+    border: 3px solid transparent;
+    cursor: pointer;
+}
+
+.discussion-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    border-color: #ec4899;
+}
+
+.card-icon {
+    flex-shrink: 0;
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+    box-shadow: 0 5px 20px rgba(236, 72, 153, 0.3);
+    animation: float 3s ease-in-out infinite;
+}
+
+.card-content {
+    flex: 1;
+}
+
+.card-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.card-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 15px;
+    color: #666;
+    font-weight: 600;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.next-btn {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: white;
+    border: none;
+    padding: 22px 90px;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
+    transition: all 0.3s ease;
+    display: block;
+    margin: 50px auto 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.next-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(251, 191, 36, 0.5);
+}
+
+/* Responsive Design for Periods Module */
+@media (max-width: 870px) {
+    .date-inputs {
+        grid-template-columns: 1fr;
+    }
+
+    .did-you-know {
+        font-size: 36px;
+    }
+
+    .stat-highlight {
+        font-size: 70px;
+    }
+
+    .info-text {
+        font-size: 20px;
+    }
+
+    .card-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 35px;
+    }
+
+    .card-title {
+        font-size: 15px;
+    }
+
+    .discussion-title {
+        font-size: 30px;
+    }
+
+    .result-date {
+        font-size: 38px;
+    }
+}

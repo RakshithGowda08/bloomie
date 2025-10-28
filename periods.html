@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom - Period Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .periods-module {
+            width: 100%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background-color: #d8dee9;
+            transform: scale(1.05);
+        }
+
+        .period-tracker {
+            padding: 60px 30px 30px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #495057;
+            font-size: 18px;
+        }
+
+        .date-inputs {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .cycle-length {
+            display: flex;
+            max-width: 200px;
+        }
+
+        .custom-select {
+            position: relative;
+            flex: 1;
+        }
+
+        .custom-select select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            background-color: white;
+            font-size: 16px;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .custom-select select:focus {
+            border-color: #ff6b9d;
+            box-shadow: 0 0 0 2px rgba(255, 107, 157, 0.2);
+            outline: none;
+        }
+
+        .custom-select::after {
+            content: "▼";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #6c757d;
+            font-size: 12px;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8e8e 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+        }
+
+        .loading-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 30px 30px;
+            text-align: center;
+            min-height: 500px;
+        }
+
+        .did-you-know {
+            font-size: 24px;
+            color: #6c757d;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .stat-highlight {
+            font-size: 72px;
+            font-weight: 800;
+            color: #ff6b9d;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-text {
+            font-size: 18px;
+            color: #495057;
+            line-height: 1.5;
+            max-width: 500px;
+            margin-bottom: 30px;
+        }
+
+        .bloom-highlight {
+            color: #ff6b9d;
+            font-weight: 700;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 107, 157, 0.2);
+            border-top: 5px solid #ff6b9d;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-screen {
+            display: none;
+            padding: 60px 30px 30px;
+        }
+
+        .result-box {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8e8e 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+        }
+
+        .result-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .result-date {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .discussion-section {
+            padding: 20px 0;
+        }
+
+        .discussion-title {
+            font-size: 24px;
+            color: #495057;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .discussion-subtitle {
+            color: #6c757d;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .discussion-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .discussion-card {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #e9ecef;
+        }
+
+        .discussion-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: #ff6b9d;
+        }
+
+        .discussion-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .discussion-card-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8e8e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .discussion-card-user {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .discussion-card-time {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .discussion-card-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #495057;
+            font-size: 16px;
+        }
+
+        .discussion-card-content {
+            color: #6c757d;
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .discussion-card-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .next-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #6a89cc 0%, #4a69bd 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 137, 204, 0.4);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .period-tracker, .loading-screen, .result-screen {
+                padding: 50px 20px 20px;
+            }
+            
+            .date-inputs {
+                flex-direction: column;
+            }
+            
+            .cycle-length {
+                max-width: 100%;
+            }
+            
+            .stat-highlight {
+                font-size: 60px;
+            }
+            
+            .info-text {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="periods-module">
+        <div class="back-button" onclick="goBackToMain()">←</div>
+        
+        <div class="period-tracker" id="form-section">
+            <div class="form-section">
+                <label class="form-label">Please select the first day of your last period:</label>
+                <div class="date-inputs">
+                    <div class="custom-select">
+                        <select id="month">
+                            <option value="">Month</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+                    </div>
+
+                    <div class="custom-select">
+                        <select id="date">
+                            <option value="">Date</option>
+                            <!-- Dates will be populated by JS -->
+                        </select>
+                    </div>
+
+                    <div class="custom-select">
+                        <select id="year">
+                            <option value="">Year</option>
+                            <!-- Years will be populated by JS -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label class="form-label">What is the average length of your menstrual cycle?</label>
+                <div class="cycle-length">
+                    <div class="custom-select">
+                        <select id="cycle-length">
+                            <option value="">Select days</option>
+                            <!-- Cycle lengths will be populated by JS -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button class="calculate-btn" id="calculatePeriod">Calculate</button>
+        </div>
+
+        <div class="loading-screen" id="loading-screen">
+            <div class="did-you-know">Did you know?</div>
+            <div class="stat-highlight">82%</div>
+            <div class="info-text">
+                of the girls in Malawi didn't know about periods before their first one
+            </div>
+            <div class="spinner"></div>
+            <div class="info-text" style="margin-top: 50px;">
+                There is still lack of menstrual knowledge worldwide,<br>
+                <span class="bloom-highlight">Bloom</span> is changing that
+            </div>
+        </div>
+
+        <div class="result-screen" id="result-screen">
+            <div class="result-box">
+                <div class="result-title">Your Next Expected Period:</div>
+                <div class="result-date" id="result-date"></div>
+            </div>
+
+            <div class="discussion-section">
+                <h2 class="discussion-title">Join the discussion</h2>
+                <p class="discussion-subtitle">
+                    You can connect and chat about everything from tips to beat cramps to what to do about late periods with the friendly Flo community.
+                </p>
+
+                <div class="discussion-cards">
+                    <!-- Discussion cards will be populated by JS -->
+                </div>
+
+                <button class="next-btn" id="resetCalculator">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM elements
+        const formSection = document.getElementById('form-section');
+        const loadingScreen = document.getElementById('loading-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const calculateBtn = document.getElementById('calculatePeriod');
+        const resetBtn = document.getElementById('resetCalculator');
+        
+        // Form elements
+        const monthSelect = document.getElementById('month');
+        const dateSelect = document.getElementById('date');
+        const yearSelect = document.getElementById('year');
+        const cycleLengthSelect = document.getElementById('cycle-length');
+        const resultDate = document.getElementById('result-date');
+        const discussionCards = document.querySelector('.discussion-cards');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            populateDates();
+            populateYears();
+            populateCycleLengths();
+            
+            // Add event listeners
+            calculateBtn.addEventListener('click', calculatePeriod);
+            resetBtn.addEventListener('click', resetCalculator);
+        });
+
+        // Populate date dropdown (1-31)
+        function populateDates() {
+            for (let i = 1; i <= 31; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                dateSelect.appendChild(option);
+            }
+        }
+
+        // Populate year dropdown (current year and previous 5 years)
+        function populateYears() {
+            const currentYear = new Date().getFullYear();
+            for (let i = currentYear; i >= currentYear - 5; i--) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                yearSelect.appendChild(option);
+            }
+        }
+
+        // Populate cycle length dropdown (21-35 days)
+        function populateCycleLengths() {
+            for (let i = 21; i <= 35; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i + ' days';
+                cycleLengthSelect.appendChild(option);
+            }
+        }
+
+        // Calculate next period date
+        function calculatePeriod() {
+            // Get form values
+            const month = monthSelect.value;
+            const date = dateSelect.value;
+            const year = yearSelect.value;
+            const cycleLength = cycleLengthSelect.value;
+            
+            // Validate form
+            if (!month || !date || !year || !cycleLength) {
+                alert('Please fill in all fields to calculate your next period.');
+                return;
+            }
+            
+            // Show loading screen
+            formSection.style.display = 'none';
+            loadingScreen.style.display = 'flex';
+            
+            // Simulate calculation delay
+            setTimeout(() => {
+                // Calculate next period date
+                const lastPeriodDate = new Date(`${month} ${date}, ${year}`);
+                const nextPeriodDate = new Date(lastPeriodDate);
+                nextPeriodDate.setDate(nextPeriodDate.getDate() + parseInt(cycleLength));
+                
+                // Format the result
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const formattedDate = nextPeriodDate.toLocaleDateString('en-US', options);
+                
+                // Show result screen
+                loadingScreen.style.display = 'none';
+                resultScreen.style.display = 'block';
+                
+                // Display result
+                resultDate.textContent = formattedDate;
+                
+                // Populate discussion cards
+                populateDiscussionCards();
+            }, 3000);
+        }
+
+        // Populate discussion cards with sample data
+        function populateDiscussionCards() {
+            const sampleDiscussions = [
+                {
+                    user: 'Priya S.',
+                    time: '2 hours ago',
+                    title: 'Tips for reducing cramps?',
+                    content: 'Looking for natural ways to ease menstrual cramps. Any suggestions that have worked for you?',
+                    replies: '24',
+                    likes: '42'
+                },
+                {
+                    user: 'Ananya R.',
+                    time: '5 hours ago',
+                    title: 'Irregular cycles after COVID',
+                    content: 'Has anyone experienced changes in their menstrual cycle after recovering from COVID?',
+                    replies: '18',
+                    likes: '31'
+                },
+                {
+                    user: 'Meera K.',
+                    time: '1 day ago',
+                    title: 'Best period tracking apps?',
+                    content: 'What are your favorite period tracking apps and why? Looking for recommendations!',
+                    replies: '36',
+                    likes: '58'
+                },
+                {
+                    user: 'Sneha P.',
+                    time: '2 days ago',
+                    title: 'Dealing with PMS mood swings',
+                    content: 'How do you manage the emotional rollercoaster during PMS? Looking for coping strategies.',
+                    replies: '29',
+                    likes: '47'
+                }
+            ];
+            
+            discussionCards.innerHTML = '';
+            
+            sampleDiscussions.forEach(discussion => {
+                const card = document.createElement('div');
+                card.className = 'discussion-card';
+                
+                // Create avatar from first letter of user's name
+                const avatarLetter = discussion.user.charAt(0);
+                
+                card.innerHTML = `
+                    <div class="discussion-card-header">
+                        <div class="discussion-card-avatar">${avatarLetter}</div>
+                        <div>
+                            <div class="discussion-card-user">${discussion.user}</div>
+                            <div class="discussion-card-time">${discussion.time}</div>
+                        </div>
+                    </div>
+                    <div class="discussion-card-title">${discussion.title}</div>
+                    <div class="discussion-card-content">${discussion.content}</div>
+                    <div class="discussion-card-stats">
+                        <span>${discussion.replies} replies</span>
+                        <span>${discussion.likes} likes</span>
+                    </div>
+                `;
+                
+                discussionCards.appendChild(card);
+            });
+        }
+
+        // Reset calculator to initial state
+        function resetCalculator() {
+            // Reset form values
+            monthSelect.value = '';
+            dateSelect.value = '';
+            yearSelect.value = '';
+            cycleLengthSelect.value = '';
+            
+            // Show form section again
+            resultScreen.style.display = 'none';
+            formSection.style.display = 'block';
+        }
+
+        // Back button function
+        function goBackToMain() {
+            alert("In a real application, this would navigate back to the main page.");
+        }
+    </script>
+</body>
+</html>

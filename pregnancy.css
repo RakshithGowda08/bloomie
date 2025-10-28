@@ -1,0 +1,411 @@
+/* Pregnancy Module Specific Styles */
+.pregnancy-module {
+    position: relative;
+}
+
+.pregnancy-form-section {
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.pregnancy-form-label {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+    display: block;
+    position: relative;
+    padding-left: 30px;
+}
+
+.pregnancy-form-label::before {
+    content: '👶';
+    position: absolute;
+    left: 0;
+    font-size: 20px;
+}
+
+.pregnancy-date-inputs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.pregnancy-calculate-btn {
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    color: white;
+    border: none;
+    padding: 22px 70px;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(236, 72, 153, 0.4);
+    transition: all 0.3s ease;
+    display: block;
+    margin: 40px auto;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.pregnancy-calculate-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.pregnancy-calculate-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.pregnancy-calculate-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(236, 72, 153, 0.5);
+}
+
+.pregnancy-result-container {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.pregnancy-result-container.active {
+    display: block;
+}
+
+.pregnancy-result-box {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    padding: 50px;
+    margin: 30px auto;
+    max-width: 700px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.pregnancy-result-box::before {
+    content: '👶';
+    position: absolute;
+    font-size: 150px;
+    opacity: 0.1;
+    top: -30px;
+    right: -30px;
+    animation: rotate 10s linear infinite;
+}
+
+.pregnancy-result-title {
+    font-size: 32px;
+    color: white;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.pregnancy-result-date {
+    font-size: 54px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 5px 20px rgba(251, 191, 36, 0.3);
+    animation: pulse 2s ease infinite;
+}
+
+.pregnancy-info-section {
+    margin-top: 40px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.pregnancy-info-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #a855f7;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.pregnancy-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.pregnancy-info-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.pregnancy-info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.pregnancy-info-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.pregnancy-info-card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.pregnancy-info-card-desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Pregnancy Test Guide Styles */
+.pregnancy-guide-section {
+    margin-top: 50px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 30px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.guide-section {
+    margin-bottom: 40px;
+}
+
+.guide-section h3 {
+    color: #a855f7;
+    font-size: 28px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.test-kit-container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.test-kit-image {
+    flex: 1;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    border-radius: 20px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 5em;
+    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3);
+    animation: pulse 2s infinite;
+}
+
+.test-kit-info {
+    flex: 1;
+}
+
+.test-kit-info h3 {
+    color: #a855f7;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.test-kit-info p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.test-procedure {
+    margin-top: 40px;
+}
+
+.test-procedure h4 {
+    color: #a855f7;
+    font-size: 22px;
+    margin-bottom: 25px;
+}
+
+.procedure-step {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    flex-shrink: 0;
+    font-size: 18px;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-content h4 {
+    color: #a855f7;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.step-content p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.daily-sessions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.session-card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    text-align: center;
+    border: 2px solid rgba(168, 85, 247, 0.1);
+}
+
+.session-card:hover {
+    transform: translateY(-10px);
+}
+
+.session-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2em;
+    margin: 0 auto 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.session-card h4 {
+    color: #a855f7;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.session-card p {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.session-btn {
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 3px 10px rgba(168, 85, 247, 0.3);
+}
+
+.session-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    margin-top: 30px;
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5em;
+    margin-right: 20px;
+}
+
+.stat-content h4 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.stat-content p {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Responsive Design for Pregnancy Module */
+@media (max-width: 870px) {
+    .pregnancy-date-inputs {
+        grid-template-columns: 1fr;
+    }
+
+    .pregnancy-info-grid {
+        grid-template-columns: 1fr;
+    }
+   
+    .test-kit-container {
+        flex-direction: column;
+    }
+   
+    .daily-sessions {
+        grid-template-columns: 1fr;
+    }
+}

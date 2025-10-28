@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom - Login & Signup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffd6e7 0%, #c2e9fb 50%, #ffefb8 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            position: relative;
+            width: 850px;
+            height: 550px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(105, 155, 255, 0.25);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-container {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 40px;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .login-container {
+            left: 0;
+            z-index: 2;
+        }
+
+        .signup-container {
+            left: 0;
+            z-index: 1;
+            opacity: 0;
+        }
+
+        .container.active .login-container {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        .container.active .signup-container {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: move 0.6s;
+        }
+
+        @keyframes move {
+            0%, 49.99% {
+                opacity: 0;
+                z-index: 1;
+            }
+            50%, 100% {
+                opacity: 1;
+                z-index: 5;
+            }
+        }
+
+        .toggle-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: all 0.6s ease-in-out;
+            z-index: 1000;
+            border-radius: 150px 0 0 100px;
+        }
+
+        .container.active .toggle-container {
+            transform: translateX(-100%);
+            border-radius: 0 150px 100px 0;
+        }
+
+        .toggle {
+            background: linear-gradient(to right, #6b9cff, #ff6b9c);
+            height: 100%;
+            color: #fff;
+            position: relative;
+            left: -100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: all 0.6s ease-in-out;
+        }
+
+        .container.active .toggle {
+            transform: translateX(50%);
+        }
+
+        .toggle-panel {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 30px;
+            text-align: center;
+            top: 0;
+            transform: translateX(0);
+            transition: all 0.6s ease-in-out;
+        }
+
+        .toggle-left {
+            transform: translateX(-200%);
+        }
+
+        .container.active .toggle-left {
+            transform: translateX(0);
+        }
+
+        .toggle-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .container.active .toggle-right {
+            transform: translateX(200%);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #6b9cff, #ff6b9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: #8fa8e6;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 30px;
+            color: #666;
+            text-align: center;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+            width: 100%;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            background: #f5f8ff;
+            border-radius: 50px;
+            outline: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .input-group input:focus {
+            background: #eef4ff;
+            border: 2px solid #9ebbff;
+            box-shadow: 0 0 10px rgba(158, 187, 255, 0.3);
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #9ebbff;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:valid + label {
+            top: -10px;
+            left: 15px;
+            font-size: 12px;
+            color: #6b9cff;
+            background: #fff;
+            padding: 0 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: linear-gradient(to right, #6b9cff, #ff6b9c);
+            color: #fff;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(107, 156, 255, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(107, 156, 255, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: 2px solid #fff;
+            margin-top: 20px;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .social-login-section {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .social-login-section h3 {
+            text-align: center;
+            color: #8fa8e6;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-btn.google {
+            background: #fff;
+            color: #757575;
+            border: 1px solid #ddd;
+        }
+
+        .social-btn.google:hover {
+            background: #DB4437;
+            color: #fff;
+            border-color: #DB4437;
+        }
+
+        .social-btn.facebook {
+            background: #fff;
+            color: #4267B2;
+            border: 1px solid #ddd;
+        }
+
+        .social-btn.facebook:hover {
+            background: #4267B2;
+            color: #fff;
+            border-color: #4267B2;
+        }
+
+        .social-btn.github {
+            background: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .social-btn.github:hover {
+            background: #333;
+            color: #fff;
+            border-color: #333;
+        }
+
+        .social-btn.linkedin {
+            background: #fff;
+            color: #0077B5;
+            border: 1px solid #ddd;
+        }
+
+        .social-btn.linkedin:hover {
+            background: #0077B5;
+            color: #fff;
+            border-color: #0077B5;
+        }
+
+        /* Floating background elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .petal {
+            position: absolute;
+            border-radius: 50% 0 50% 0;
+            animation: float 20s infinite linear;
+            z-index: -1;
+        }
+
+        /* Uterus Logo Styles */
+        .uterus-logo {
+            width: 70px;
+            height: 70px;
+            position: relative;
+            margin-right: 15px;
+            animation: gentlePulse 3s infinite ease-in-out;
+        }
+
+        .uterus-body {
+            width: 45px;
+            height: 55px;
+            background: linear-gradient(135deg, #6b9cff, #ff6b9c);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: absolute;
+            top: 7px;
+            left: 12px;
+            box-shadow: 0 5px 15px rgba(107, 156, 255, 0.3);
+        }
+
+        .fallopian-left {
+            width: 20px;
+            height: 5px;
+            background: #6b9cff;
+            position: absolute;
+            top: 25px;
+            left: -5px;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .fallopian-right {
+            width: 20px;
+            height: 5px;
+            background: #6b9cff;
+            position: absolute;
+            top: 25px;
+            right: -5px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .ovary-left {
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(135deg, #ff6b9c, #ff4d8d);
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            left: -12px;
+            box-shadow: 0 3px 10px rgba(255, 107, 156, 0.4);
+        }
+
+        .ovary-right {
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(135deg, #ff6b9c, #ff4d8d);
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            right: -12px;
+            box-shadow: 0 3px 10px rgba(255, 107, 156, 0.4);
+        }
+
+        .ovary-sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            top: 5px;
+            left: 5px;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Positive Vibes Elements */
+        .positive-message {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #6b9cff;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.8;
+            animation: fadeInOut 8s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .sun {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: #ffefb8;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ffefb8;
+            animation: pulse 4s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .heart {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #ff6b9c;
+            font-size: 24px;
+            animation: heartbeat 2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @media (max-width: 870px) {
+            .container {
+                width: 100%;
+                height: 100%;
+                border-radius: 0;
+            }
+            
+            .form-container {
+                width: 100%;
+            }
+            
+            .toggle-container {
+                display: none;
+            }
+            
+            .container.active .login-container,
+            .container.active .signup-container {
+                transform: translateX(0);
+            }
+
+            .social-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Elements -->
+    <div id="floatingAnimation"></div>
+    
+    <!-- Positive Vibes Elements -->
+    <div class="positive-message">Welcome to Bloom - Your journey to wellness begins here!</div>
+    <div class="sun"></div>
+    <div class="heart"><i class="fas fa-heart"></i></div>
+    
+    <div class="container" id="container">
+        <div class="form-container login-container">
+            <form id="loginForm">
+                <div class="logo">
+                    <div class="uterus-logo">
+                        <div class="uterus-body"></div>
+                        <div class="fallopian-left"></div>
+                        <div class="fallopian-right"></div>
+                        <div class="ovary-left">
+                            <div class="ovary-sparkle"></div>
+                        </div>
+                        <div class="ovary-right">
+                            <div class="ovary-sparkle"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h1>Bloom</h1>
+                        <div class="tagline">Track. Care. Grow.</div>
+                    </div>
+                </div>
+                
+                <div class="social-login-section">
+                    <h3>Login with social accounts</h3>
+                    <div class="social-buttons">
+                        <a href="#" class="social-btn google" id="googleLogin" onclick="initiateSocialLogin('google')">
+                            <i class="fab fa-google"></i>
+                            <span>Google</span>
+                        </a>
+                        <a href="#" class="social-btn facebook" id="facebookLogin" onclick="initiateSocialLogin('facebook')">
+                            <i class="fab fa-facebook-f"></i>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="#" class="social-btn github" id="githubLogin" onclick="initiateSocialLogin('github')">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="#" class="social-btn linkedin" id="linkedinLogin" onclick="initiateSocialLogin('linkedin')">
+                            <i class="fab fa-linkedin-in"></i>
+                            <span>LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <span style="color: #8fa8e6; margin-bottom: 20px; display: block; text-align: center;">or use your email account</span>
+                <div class="input-group">
+                    <input type="email" required>
+                    <label>Email</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" required>
+                    <label>Password</label>
+                </div>
+                <a href="#" style="color: #6b9cff; text-decoration: none; margin-bottom: 20px; display: block; text-align: center;">Forgot your password?</a>
+                <button type="submit" id="loginBtn">Login</button>
+            </form>
+        </div>
+        
+        <div class="form-container signup-container">
+            <form id="signupForm">
+                <div class="logo">
+                    <div class="uterus-logo">
+                        <div class="uterus-body"></div>
+                        <div class="fallopian-left"></div>
+                        <div class="fallopian-right"></div>
+                        <div class="ovary-left">
+                            <div class="ovary-sparkle"></div>
+                        </div>
+                        <div class="ovary-right">
+                            <div class="ovary-sparkle"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h1>Bloom</h1>
+                        <div class="tagline">Track. Care. Grow.</div>
+                    </div>
+                </div>
+                
+                <div class="social-login-section">
+                    <h3>Sign up with social accounts</h3>
+                    <div class="social-buttons">
+                        <a href="#" class="social-btn google" id="googleSignup" onclick="initiateSocialLogin('google')">
+                            <i class="fab fa-google"></i>
+                            <span>Google</span>
+                        </a>
+                        <a href="#" class="social-btn facebook" id="facebookSignup" onclick="initiateSocialLogin('facebook')">
+                            <i class="fab fa-facebook-f"></i>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="#" class="social-btn github" id="githubSignup" onclick="initiateSocialLogin('github')">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="#" class="social-btn linkedin" id="linkedinSignup" onclick="initiateSocialLogin('linkedin')">
+                            <i class="fab fa-linkedin-in"></i>
+                            <span>LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <span style="color: #8fa8e6; margin-bottom: 20px; display: block; text-align: center;">or use your email for registration</span>
+                <div class="input-group">
+                    <input type="text" required>
+                    <label>Username</label>
+                </div>
+                <div class="input-group">
+                    <input type="email" required>
+                    <label>Email</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" required>
+                    <label>Password</label>
+                </div>
+                <button type="submit" id="signupBtn">Sign Up</button>
+            </form>
+        </div>
+        
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <div class="uterus-logo" style="margin-bottom: 20px;">
+                        <div class="uterus-body"></div>
+                        <div class="fallopian-left"></div>
+                        <div class="fallopian-right"></div>
+                        <div class="ovary-left">
+                            <div class="ovary-sparkle"></div>
+                        </div>
+                        <div class="ovary-right">
+                            <div class="ovary-sparkle"></div>
+                        </div>
+                    </div>
+                    <h1 style="color: white; -webkit-text-fill-color: white; background: none;">Welcome Back!</h1>
+                    <p style="color: white;">Enter your personal details to use all of Bloom features</p>
+                    <button class="toggle-btn" id="login">Login</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <div class="uterus-logo" style="margin-bottom: 20px;">
+                        <div class="uterus-body"></div>
+                        <div class="fallopian-left"></div>
+                        <div class="fallopian-right"></div>
+                        <div class="ovary-left">
+                            <div class="ovary-sparkle"></div>
+                        </div>
+                        <div class="ovary-right">
+                            <div class="ovary-sparkle"></div>
+                        </div>
+                    </div>
+                    <h1 style="color: white; -webkit-text-fill-color: white; background: none;">Hello, Saheli!</h1>
+                    <p style="color: white;">Register with your personal details to join our blooming community</p>
+                    <button class="toggle-btn" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between login and signup forms
+        const container = document.getElementById('container');
+        const registerBtn = document.getElementById('register');
+        const loginBtn = document.getElementById('login');
+
+        registerBtn.addEventListener('click', () => {
+            container.classList.add('active');
+        });
+
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove('active');
+        });
+
+        // Login form submission - redirect to abc.html
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const loginButton = document.getElementById('loginBtn');
+            const originalText = loginButton.textContent;
+            
+            // Show loading state
+            loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+            loginButton.disabled = true;
+            
+            // Simulate login process
+            setTimeout(() => {
+                // Redirect to abc.html
+                window.location.href = 'login.html';
+            }, 1500);
+        });
+
+        // Signup form submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const signupButton = document.getElementById('signupBtn');
+            const originalText = signupButton.textContent;
+            
+            // Show loading state
+            signupButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+            signupButton.disabled = true;
+            
+            // Simulate signup process
+            setTimeout(() => {
+                signupButton.innerHTML = '<i class="fas fa-check"></i> Account Created!';
+                signupButton.style.background = '#7bed9f';
+                
+                setTimeout(() => {
+                    signupButton.innerHTML = originalText;
+                    signupButton.style.background = '';
+                    signupButton.disabled = false;
+                    
+                    // Switch to login form after successful signup
+                    container.classList.remove('active');
+                }, 2000);
+            }, 1500);
+        });
+
+        // Social login functionality
+        function initiateSocialLogin(provider) {
+            event.preventDefault();
+            
+            // Show loading state
+            const button = event.target.closest('.social-btn');
+            const originalHTML = button.innerHTML;
+            
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirecting...';
+            button.style.pointerEvents = 'none';
+            
+            // In a real application, you would redirect to your backend OAuth endpoints
+            // For demo purposes, we'll simulate the OAuth flow
+            
+            setTimeout(() => {
+                // For demo, show success message and redirect to abc.html
+                simulateOAuthSuccess(provider, button, originalHTML);
+            }, 1500);
+        }
+
+        function simulateOAuthSuccess(provider, button, originalHTML) {
+            // Show success state
+            button.innerHTML = '<i class="fas fa-check"></i> Success!';
+            button.style.background = '#7bed9f';
+            
+            setTimeout(() => {
+                // Redirect to abc.html
+                window.location.href = 'login.html';
+            }, 1000);
+        }
+
+        // Create floating animation elements
+        const floatingAnimation = document.getElementById('floatingAnimation');
+        
+        function createFloatingElement() {
+            const isPetal = Math.random() > 0.5;
+            const element = document.createElement('div');
+            element.classList.add(isPetal ? 'petal' : 'floating-element');
+            
+            const size = Math.random() * 60 + 20;
+            element.style.width = size + 'px';
+            element.style.height = size + 'px';
+            
+            element.style.left = Math.random() * 100 + '%';
+            element.style.animationDuration = (Math.random() * 20 + 10) + 's';
+            element.style.animationDelay = (Math.random() * 5) + 's';
+            
+            // Add blue and pink color variations
+            if (isPetal) {
+                const isBlue = Math.random() > 0.5;
+                if (isBlue) {
+                    element.style.background = 'rgba(107, 156, 255, 0.4)';
+                } else {
+                    element.style.background = 'rgba(255, 107, 156, 0.4)';
+                }
+            } else {
+                const isBlue = Math.random() > 0.5;
+                if (isBlue) {
+                    element.style.background = 'rgba(107, 156, 255, 0.3)';
+                } else {
+                    element.style.background = 'rgba(255, 107, 156, 0.3)';
+                }
+            }
+            
+            floatingAnimation.appendChild(element);
+            
+            // Remove element after animation completes
+            setTimeout(() => {
+                element.remove();
+            }, 30000);
+        }
+        
+        // Create initial floating elements
+        for (let i = 0; i < 15; i++) {
+            createFloatingElement();
+        }
+        
+        // Continuously create new floating elements
+        setInterval(createFloatingElement, 1000);
+        
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                20%, 40%, 60%, 80% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Check if we're returning from OAuth (for demo purposes)
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('oauth_success')) {
+                alert('Welcome back! OAuth authentication was successful.');
+            }
+        });
+    </script>
+</body>
+</html>

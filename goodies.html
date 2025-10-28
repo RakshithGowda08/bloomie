@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom - Goodies Module</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .goodies-module {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background-color: #d8dee9;
+            transform: scale(1.05);
+        }
+
+        .goodies-header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+            padding: 40px 20px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .goodies-logo {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .goodies-header h1 {
+            font-size: 36px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .goodies-header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .blinkit-floating {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+        }
+
+        .blinkit-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .blinkit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .goodies-main-container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .goodies-section {
+            flex: 1;
+            min-width: 300px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .goodies-section h2 {
+            margin-bottom: 20px;
+            color: #495057;
+            font-size: 24px;
+        }
+
+        .goodies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .goodie-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .goodie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .goodie-image {
+            height: 140px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+        }
+
+        .goodie-info {
+            padding: 15px;
+        }
+
+        .goodie-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .goodie-price {
+            color: #6a89cc;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .goodie-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quantity-btn:hover {
+            background-color: #6a89cc;
+            color: white;
+        }
+
+        .quantity {
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .add-to-cart {
+            background-color: #6a89cc;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background-color: #4a69bd;
+            transform: scale(1.05);
+        }
+
+        .cart-section {
+            flex: 0 0 350px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .cart-header h3 {
+            color: #495057;
+            font-size: 22px;
+        }
+
+        .cart-count {
+            background-color: #6a89cc;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .cart-items {
+            flex: 1;
+            margin-bottom: 20px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 40px 0;
+            color: #6c757d;
+        }
+
+        .cart-empty-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: #6a89cc;
+            font-weight: 600;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-item-total {
+            font-weight: 700;
+            min-width: 70px;
+            text-align: right;
+        }
+
+        .remove-item {
+            color: #dc3545;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .remove-item:hover {
+            transform: scale(1.2);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-top: 2px solid #dee2e6;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .cart-total-amount {
+            color: #6a89cc;
+            font-size: 22px;
+        }
+
+        .checkout-section {
+            margin-top: 20px;
+        }
+
+        .delivery-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #e7f5ff;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            color: #1971c2;
+            font-weight: 600;
+        }
+
+        .address-input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .address-input:focus {
+            border-color: #6a89cc;
+            box-shadow: 0 0 0 2px rgba(106, 137, 204, 0.2);
+            outline: none;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #6a89cc 0%, #4a69bd 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 137, 204, 0.4);
+        }
+
+        .checkout-btn:disabled {
+            background: #adb5bd;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .goodies-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .goodies-modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: modalAppear 0.3s ease;
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .goodies-modal-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .goodies-modal-content h3 {
+            margin-bottom: 15px;
+            color: #495057;
+        }
+
+        .goodies-modal-content p {
+            margin-bottom: 20px;
+            color: #6c757d;
+            line-height: 1.5;
+        }
+
+        .goodies-modal-btn {
+            background: linear-gradient(135deg, #6a89cc 0%, #4a69bd 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .goodies-modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 137, 204, 0.4);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            .goodies-main-container {
+                flex-direction: column;
+            }
+            
+            .cart-section {
+                flex: 1;
+            }
+            
+            .goodies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .goodies-header {
+                padding: 50px 20px 30px;
+            }
+            
+            .blinkit-floating {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .blinkit-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="goodies-module">
+        <div class="back-button" onclick="goBackToMain()">←</div>
+        
+        <div class="goodies-header">
+            <div class="goodies-logo">🌸</div>
+            <div class="goodies-header-text">
+                <h1>Bloom</h1>
+                <p>Track. Care. Grow.</p>
+            </div>
+        </div>
+       
+        <!-- BLINKIT FLOATING BUTTON -->
+        <div class="blinkit-floating">
+            <a href="https://blinkit.com" target="_blank" class="blinkit-btn">
+                Need it in 10 mins? Try Blinkit
+            </a>
+        </div>
+
+        <div class="goodies-main-container">
+            <div class="goodies-section">
+                <h2>🎁 Goodies Module</h2>
+                <div class="goodies-grid" id="goodiesGrid"></div>
+            </div>
+
+            <div class="cart-section" id="cartSection">
+                <div class="cart-header">
+                    <h3>🛒 Cart</h3>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                <div class="cart-items" id="cartItems">
+                    <div class="cart-empty">
+                        <div class="cart-empty-icon">🛍️</div>
+                        <p>Your cart is empty</p>
+                    </div>
+                </div>
+                <div class="cart-total" id="cartTotal" style="display: none;">
+                    <span>Total:</span>
+                    <span class="cart-total-amount" id="totalAmount">₹0</span>
+                </div>
+                <div class="checkout-section" id="checkoutSection" style="display: none;">
+                    <div class="delivery-info">
+                        <span>🚀</span>
+                        <span>Quick delivery in 2-3 hours!</span>
+                    </div>
+                    <input type="text" id="addressLine1" class="address-input" placeholder="Flat / House No., Building Name">
+                    <input type="text" id="addressLine2" class="address-input" placeholder="Street, Area, Locality">
+                    <input type="text" id="city" class="address-input" placeholder="City">
+                    <input type="text" id="pincode" class="address-input" placeholder="Pincode" maxlength="6">
+                    <input type="tel" id="phone" class="address-input" placeholder="Phone Number" maxlength="10">
+                    <button class="checkout-btn" id="placeOrder">
+                        <span>🛍️</span>
+                        <span>Place Order</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Success Modal -->
+        <div class="goodies-modal" id="successModal">
+            <div class="goodies-modal-content">
+                <div class="goodies-modal-icon">🎉</div>
+                <h3>Order Placed Successfully!</h3>
+                <p>Your order will be delivered within 2-3 hours. Thank you for shopping with Bloom!</p>
+                <button class="goodies-modal-btn" onclick="closeModal()">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample product data
+        const products = [
+            { id: 1, name: "Organic Lavender Oil", price: 450, emoji: "🌿" },
+            { id: 2, name: "Himalayan Salt Lamp", price: 1200, emoji: "💎" },
+            { id: 3, name: "Aromatherapy Diffuser", price: 1800, emoji: "💨" },
+            { id: 4, name: "Herbal Tea Sampler", price: 650, emoji: "🍵" },
+            { id: 5, name: "Yoga Mat", price: 1500, emoji: "🧘" },
+            { id: 6, name: "Meditation Cushion", price: 900, emoji: "🪑" },
+            { id: 7, name: "Essential Oil Set", price: 2200, emoji: "🫙" },
+            { id: 8, name: "Jade Roller", price: 750, emoji: "🌀" }
+        ];
+
+        // Cart state
+        let cart = [];
+        let cartItemCount = 0;
+
+        // DOM elements
+        const goodiesGrid = document.getElementById('goodiesGrid');
+        const cartItems = document.getElementById('cartItems');
+        const cartCount = document.getElementById('cartCount');
+        const cartTotal = document.getElementById('cartTotal');
+        const totalAmount = document.getElementById('totalAmount');
+        const checkoutSection = document.getElementById('checkoutSection');
+        const placeOrderBtn = document.getElementById('placeOrder');
+        const successModal = document.getElementById('successModal');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts();
+            updateCartUI();
+            
+            // Add event listener for place order button
+            placeOrderBtn.addEventListener('click', placeOrder);
+        });
+
+        // Render products in the grid
+        function renderProducts() {
+            goodiesGrid.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'goodie-card';
+                productCard.innerHTML = `
+                    <div class="goodie-image">
+                        ${product.emoji}
+                    </div>
+                    <div class="goodie-info">
+                        <div class="goodie-name">${product.name}</div>
+                        <div class="goodie-price">₹${product.price}</div>
+                        <div class="goodie-actions">
+                            <div class="quantity-controls" id="controls-${product.id}" style="display: none;">
+                                <button class="quantity-btn" onclick="decreaseQuantity(${product.id})">-</button>
+                                <span class="quantity" id="quantity-${product.id}">1</span>
+                                <button class="quantity-btn" onclick="increaseQuantity(${product.id})">+</button>
+                            </div>
+                            <button class="add-to-cart" onclick="addToCart(${product.id})" id="add-btn-${product.id}">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+                goodiesGrid.appendChild(productCard);
+            });
+        }
+
+        // Add product to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    emoji: product.emoji,
+                    quantity: 1
+                });
+            }
+            
+            // Update UI
+            document.getElementById(`controls-${productId}`).style.display = 'flex';
+            document.getElementById(`add-btn-${productId}`).style.display = 'none';
+            document.getElementById(`quantity-${productId}`).textContent = 
+                cart.find(item => item.id === productId).quantity;
+            
+            updateCartUI();
+        }
+
+        // Increase product quantity
+        function increaseQuantity(productId) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += 1;
+                document.getElementById(`quantity-${productId}`).textContent = item.quantity;
+                updateCartUI();
+            }
+        }
+
+        // Decrease product quantity
+        function decreaseQuantity(productId) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity -= 1;
+                
+                if (item.quantity === 0) {
+                    // Remove from cart
+                    cart = cart.filter(item => item.id !== productId);
+                    document.getElementById(`controls-${productId}`).style.display = 'none';
+                    document.getElementById(`add-btn-${productId}`).style.display = 'block';
+                } else {
+                    document.getElementById(`quantity-${productId}`).textContent = item.quantity;
+                }
+                
+                updateCartUI();
+            }
+        }
+
+        // Update cart UI
+        function updateCartUI() {
+            // Update cart count
+            cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = cartItemCount;
+            
+            // Update cart items
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="cart-empty">
+                        <div class="cart-empty-icon">🛍️</div>
+                        <p>Your cart is empty</p>
+                    </div>
+                `;
+                cartTotal.style.display = 'none';
+                checkoutSection.style.display = 'none';
+            } else {
+                cartItems.innerHTML = '';
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.emoji} ${item.name}</div>
+                            <div class="cart-item-price">₹${item.price} x ${item.quantity}</div>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <span class="cart-item-total">₹${itemTotal}</span>
+                            <button class="remove-item" onclick="removeFromCart(${item.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    cartItems.appendChild(cartItem);
+                });
+                
+                totalAmount.textContent = `₹${total}`;
+                cartTotal.style.display = 'flex';
+                checkoutSection.style.display = 'block';
+            }
+        }
+
+        // Remove item from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            document.getElementById(`controls-${productId}`).style.display = 'none';
+            document.getElementById(`add-btn-${productId}`).style.display = 'block';
+            updateCartUI();
+        }
+
+        // Place order
+        function placeOrder() {
+            const addressLine1 = document.getElementById('addressLine1').value;
+            const addressLine2 = document.getElementById('addressLine2').value;
+            const city = document.getElementById('city').value;
+            const pincode = document.getElementById('pincode').value;
+            const phone = document.getElementById('phone').value;
+            
+            // Simple validation
+            if (!addressLine1 || !city || !pincode || !phone) {
+                alert('Please fill in all required address details.');
+                return;
+            }
+            
+            if (pincode.length !== 6 || isNaN(pincode)) {
+                alert('Please enter a valid 6-digit pincode.');
+                return;
+            }
+            
+            if (phone.length !== 10 || isNaN(phone)) {
+                alert('Please enter a valid 10-digit phone number.');
+                return;
+            }
+            
+            // Show success modal
+            successModal.style.display = 'flex';
+            
+            // Reset cart
+            cart.forEach(item => {
+                document.getElementById(`controls-${item.id}`).style.display = 'none';
+                document.getElementById(`add-btn-${item.id}`).style.display = 'block';
+            });
+            
+            cart = [];
+            updateCartUI();
+            
+            // Clear form
+            document.getElementById('addressLine1').value = '';
+            document.getElementById('addressLine2').value = '';
+            document.getElementById('city').value = '';
+            document.getElementById('pincode').value = '';
+            document.getElementById('phone').value = '';
+        }
+
+        // Close modal
+        function closeModal() {
+            successModal.style.display = 'none';
+        }
+
+        // Back button function
+        function goBackToMain() {
+            alert("In a real application, this would navigate back to the main page.");
+        }
+    </script>
+</body>
+</html>

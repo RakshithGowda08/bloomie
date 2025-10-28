@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom - Complete Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>👋 Welcome Back!</h2>
+            <p>sarah.bloom@email.com</p>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="account">
+                <span class="tab-icon">👤</span>
+                <span>Account</span>
+            </button>
+            <button class="tab-btn" data-tab="moreinfo">
+                <span class="tab-icon">ℹ</span>
+                <span>More Info</span>
+            </button>
+            <button class="tab-btn cart-highlight" data-tab="cart">
+                <span class="tab-icon">🛒</span>
+                <span>Your Cart</span>
+            </button>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="tab-content active" id="account">
+            <!-- Account content -->
+        </div>
+
+        <div class="tab-content" id="moreinfo">
+            <!-- More info content -->
+        </div>
+
+        <div class="tab-content" id="cart">
+            <!-- Cart content -->
+        </div>
+
+        <button class="logout-btn" onclick="logout()">
+            <span>🚪</span>
+            <span>Logout</span>
+        </button>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="menu-icon" id="menuIcon">
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+        </div>
+        <div class="cart-icon">
+            🛒
+            <div class="cart-badge">3</div>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <div class="welcome-section">
+            <h1 class="welcome-title">I'm here for you</h1>
+            <p class="welcome-subtitle">What are you looking for?</p>
+        </div>
+
+        <!-- Modules Grid -->
+        <div class="modules-grid" id="modulesGrid">
+            <div class="module-card" data-module="periods">
+                <div class="module-icon">📅</div>
+                <div class="module-name">Periods</div>
+            </div>
+
+            <div class="module-card" data-module="pregnancy">
+                <div class="module-icon">🤰</div>
+                <div class="module-name">Pregnancy</div>
+            </div>
+
+            <div class="module-card" data-module="bloomie">
+                <div class="module-icon">
+                    <img src="assets/images/bloom.jpg" alt="Bloomie" class="bloomie-avatar">
+                </div>
+                <div class="module-name">Bloomie</div>
+            </div>
+
+            <div class="module-card" data-module="goodies">
+                <div class="module-icon">🎁</div>
+                <div class="module-name">Goodies</div>
+            </div>
+        </div>
+
+        <!-- Module Content Area -->
+        <div id="module-content"></div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
